@@ -1,0 +1,9 @@
+node_modules
+dist
+.idea
+.idea/**
+package-lock.json
+.idea/sonarlint
+.idea/*
+uploads
+uploads/**

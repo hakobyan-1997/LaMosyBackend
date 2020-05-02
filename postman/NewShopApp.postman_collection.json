@@ -1,0 +1,863 @@
+{
+	"info": {
+		"_postman_id": "59e22189-c120-4d21-8e54-0782142a57c0",
+		"name": "NewShopApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "INIT",
+			"item": [
+				{
+					"name": "init",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "0c8bcdb6-9a1b-44bb-8ef9-3f37922b2127",
+								"exec": [
+									"pm.environment.set(\"TOKEN\", \"\");",
+									"pm.environment.set(\"USER_ID\", \"\");",
+									"pm.environment.set(\"productCategoryId\", \"\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://postman-echo.com/get",
+							"protocol": "https",
+							"host": [
+								"postman-echo",
+								"com"
+							],
+							"path": [
+								"get"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "83e9530d-e271-4227-9dfa-b8186cdd784b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0a0691e1-1741-4b59-886f-74b3948f7223",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "AUTHENTICATION",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"Arayik\",\n\t\"email\":\"mailtoharutyunyan@gmail.comm\",\n\t\"password\":\"chemasim\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/{{AUTH}}/register",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{AUTH}}",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "12adb744-fce5-4243-bc09-7dc11d09f640",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.environment.set(\"TOKEN\", pm.response.json().data.token);",
+									"pm.environment.set(\"USER_ID\",pm.response.json().data.userId)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"hakobyan-1997@mail.ru\",\n\t\"password\":\"ariasem\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/{{AUTH}}/login",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{AUTH}}",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "PRODUCT-CATEGORIES",
+			"item": [
+				{
+					"name": "Create Product Category",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "e9c0ae71-1b60-4745-a61e-d6eb085008c7",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "d971b93b-95a0-4c58-b376-2bacc1206fa4",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.environment.set(\"productCategoryId\", pm.response.json().data.productCategoryId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "productCategoryName",
+									"value": "Test Name",
+									"type": "text"
+								},
+								{
+									"key": "productCategoryImage",
+									"type": "file",
+									"src": "/C:/Users/arayikh/Desktop/cihan.PNG"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/product-category",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"product-category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Product Categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/product-category",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"product-category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Product Categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/product-category/all",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"product-category",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get One product category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/product-category/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"product-category",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "product categories"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product Category",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/product-category/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"product-category",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5e80eb96b767cb1ba80071c6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product Category",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "productCategoryName",
+									"value": "teeeeeeeeeeeeeeeeees",
+									"type": "text"
+								},
+								{
+									"key": "productCategoryImage",
+									"type": "file",
+									"src": "/C:/Users/arayikh/Desktop/aaa.PNG"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/product-category/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"product-category",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5e80ecb238ece3ad1c49ce79"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Product Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/product-category/search/:criteria",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"product-category",
+								"search",
+								":criteria"
+							],
+							"variable": [
+								{
+									"key": "criteria",
+									"value": "writeName"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f71c2fa1-45ac-41e6-a8e1-f9eef28d4a39",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d0a973ad-dd8e-437e-9968-55628c739604",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "PRODUCTS",
+			"item": [
+				{
+					"name": "Create Product",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4717ceaa-8da0-4520-9d7a-639e320032ef",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "productPicture",
+									"type": "file",
+									"src": "/C:/Users/arayikh/Desktop/a.jpg"
+								},
+								{
+									"key": "productName",
+									"value": "productName2",
+									"type": "text"
+								},
+								{
+									"key": "productPrice",
+									"value": "1222",
+									"type": "text"
+								},
+								{
+									"key": "productDescription",
+									"value": "productDescription2",
+									"type": "text"
+								},
+								{
+									"key": "productStars",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "productColor",
+									"value": "white",
+									"type": "text"
+								},
+								{
+									"key": "productItemsCount",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "productSize",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "productDiscount",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "productModelGender",
+									"value": "mr",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "1000",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"formdata": {}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/product/{{productCategoryId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"product",
+								"{{productCategoryId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Product With Category Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/product/{{productCategoryId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"product",
+								"{{productCategoryId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/product",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/product/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"product",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5e850305e65b7a0e3417d36c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "productPicture",
+									"type": "file",
+									"src": "/C:/Users/arayikh/Desktop/asd.PNG"
+								},
+								{
+									"key": "productName",
+									"value": "changed name",
+									"type": "text"
+								},
+								{
+									"key": "productPrice",
+									"value": "321",
+									"type": "text"
+								},
+								{
+									"key": "productDescription",
+									"value": "productDescription2",
+									"type": "text"
+								},
+								{
+									"key": "productStars",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "productColor",
+									"value": "red",
+									"type": "text"
+								},
+								{
+									"key": "productItemsCount",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "productSize",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "productDiscount",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "productModelGender",
+									"value": "mr",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/product/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"product",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5e98e972508f8f01e059ff9d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Product",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/product/search/:criteria",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"product",
+								"search",
+								":criteria"
+							],
+							"variable": [
+								{
+									"key": "criteria",
+									"value": "red"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "USERS",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "ORDERS",
+			"item": [
+				{
+					"name": "Create Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\": \"gandz order buyer gandz \",\n    \"productQuantity\": \"52\",\n    \"totalPrice\": \"200\",\n    \"buyerName\": \"Vaspurakan\",\n    \"city\": \"Yerevan\",\n    \"region\": \"region\",\n    \"country\": \"Armenia\",\n    \"phone\": \"0772755259\",\n    \"productId\": \"5e8b70e83f0bd44e0c54f028\",\n    \"sellerId\": \"5e861315a865a90ab4116dc4\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/order",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Orders By Seller Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/order/sellers",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"order",
+								"sellers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Orders By Buyer Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/order/buyers",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"order",
+								"buyers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Order By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}:{{PORT}}/order/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"order",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5e99f54d54706c0600747ba3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
